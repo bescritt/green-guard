@@ -1,0 +1,42 @@
+{
+   "action": {
+      "default_icon": {
+         "16": "img/Ico_Bar_Green.png"
+      },
+      "default_popup": "pages/popup/popup.html"
+   },
+   "background": {
+      "service_worker": "app.js"
+   },
+   "content_scripts": [ {
+      "js": [ "vendor/react.production.min.js", "vendor/react-dom.production.min.js", "vendor/browser-polyfill.js" ],
+      "matches": [ "http://*/*", "https://*/*", "ftp://*/*" ]
+   }, {
+      "js": [ "content/facebookReactPropsExtractor.js" ],
+      "matches": [ "https://www.messenger.com/*", "https://www.facebook.com/*" ],
+      "run_at": "document_end",
+      "world": "MAIN"
+   } ],
+   "default_locale": "en_US",
+   "description": "__MSG_extName__",
+   "host_permissions": [ "http://*/*", "https://*/*" ],
+   "icons": {
+      "128": "img/extension_logo.png",
+      "16": "img/context_menu_icon.png"
+   },
+   "incognito": "split",
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvxQDofXkd3+eei1BcMOdES+pe82wnG/Ngnc5dklcug+7RpE90olEvN6C2zuaI+Vv29lTobrGVDJVBVVneUXHLA4KDNczFrZma5j6IngyyXX891KFfKj2hcozIS5m/itFn1jcpIdaCFxVdJIvb37TfTN1OLiRUTZEj7uyboSu6pQIDAQAB",
+   "manifest_version": 3,
+   "name": "TrafficLight",
+   "options_page": "pages/settings/settings.html",
+   "permissions": [ "tabs", "alarms", "storage", "scripting", "webRequest", "nativeMessaging", "alarms", "scripting", "downloads", "declarativeNetRequest" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "3.4.4",
+   "web_accessible_resources": [ {
+      "matches": [ "http://*/*", "https://*/*", "ftp://*/*" ],
+      "resources": [ "img/*.png", "img/*.gif", "img/*.svg", "pages/blocked/blocked.html", "pages/components/tooltip.css" ]
+   }, {
+      "matches": [ "*://www.facebook.com/*" ],
+      "resources": [ "src/content/interceptor.js" ]
+   } ]
+}

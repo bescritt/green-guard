@@ -1,0 +1,21 @@
+# Secrets / deploy keys — never commit (treat as deploy-time, not source)
+build/signing_key.pem
+build/lic_key.pem
+build/lic_key.pub
+*.pem
+*.key
+
+# Build artifacts (regenerable)
+dist/
+node_modules/
+
+# OS / editor cruft
+.DS_Store
+*.swp
+*~
+
+# Phase scaffolding (empty placeholders)
+alpha/
+beta/
+prod/
+mission-critical/

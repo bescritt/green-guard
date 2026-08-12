@@ -1,0 +1,434 @@
+html,
+body {
+    width: auto;
+    height: 100%;
+    margin: 0px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui;
+    /* background-color: rgb(249, 251, 255); */
+}
+
+#permissionsView {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(249, 251, 255);
+}
+
+/* #region: Permissions View */
+
+/* #region: Both (Tab View & Popup View) */
+
+.BDTLL_permissions_top_logo {
+    flex: auto;
+    /* Set the logo size */
+    width: 164px;
+    height: 24px;
+    position: relative;
+    /* Center the logo */
+    margin: 0 auto;
+    /* Add background image */
+    background-image: url(../../img/permissions_top_logo.svg);
+    background-repeat: no-repeat;
+}
+
+#BDTLL_permissions_bottom_logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* .settings_link {
+    background-image: url(../../img/settings-icon_light.svg);
+} */
+
+/* .settings_link:hover {
+    background-image: url(../../img/settings-icon_light.svg);
+} */
+
+.BDTLL_permissions_container_setting {
+    margin-bottom: 24px;
+}
+
+.BDTLL_permissions_settings_title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+}
+
+.BDTLL_permissions_settings_subtitle {
+    display: flex;
+    margin: 8px 0px;
+}
+
+.BDTLL_permissions_settings_subtitle_text {
+    margin: 0px 8px;
+}
+
+.BDTLL_permissions_settings_description {
+    color: var(--neutrals-obsidian-50, #515B6D);
+
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+
+    margin-right: 32px;
+    margin-left: 32px;
+}
+
+.logo {
+    flex-shrink: 0;
+
+}
+
+.personal_data_logo {
+    width: 24px;
+    height: 24px;
+    background-image: url(../../img/feature_icon.svg);
+}
+
+.anonymous_data_logo {
+    width: 24px;
+    height: 24px;
+    background-image: url(../../img/info_icon.svg);
+}
+
+.switch_on_logo {
+    width: 40px;
+    height: 24px;
+    background-image: url(../../img/switch_on_light.svg);
+}
+
+.switch_off_logo {
+    width: 40px;
+    height: 24px;
+    background-image: url(../../img/switch_off_light.svg);
+}
+
+.tooltip {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    min-width: 220px;
+    min-height: 32px;
+
+    display: flex;
+
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0px auto;
+
+    border-radius: 4px;
+
+    color: #fff;
+    background: var(--neutrals-obsidian-50, #515B6D);
+
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip_text {
+    padding: 10px 25px;
+}
+
+/* This is the top arrow of the tooltip */
+.tooltip_text::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--neutrals-obsidian-50, #515B6D) transparent;
+}
+
+.right_aligned {
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+/* #endregion */
+
+/* #region: Tab view */
+
+.BDTLL_permissions_main_tab {
+    width: 100%;
+    /* background-color: rgb(249, 251, 255); */
+    top: 32px;
+    position: relative;
+}
+
+.BDTLL_permissions_bottom_logo_tab {
+    opacity: 0.1;
+    mix-blend-mode: darken;
+    width: 60%;
+    height: 57%;
+    position: fixed;
+    bottom: 0px;
+    margin: 0px 20%;
+}
+
+/* #endregion */
+
+/* #region: Popup view */
+
+.BDTLL_permissions_main_popup {
+    width: 300pt;
+    border: 1pt solid rgba(169, 169, 169, 0.5);
+    border-radius: 3pt;
+    box-shadow: 0pt 2pt 9pt 0pt rgba(0, 0, 0, 0.21);
+    overflow-y: scroll;
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    background-color: rgb(249, 251, 255);
+}
+
+.BDTLL_permissions_bottom_logo_popup {
+    width: 28%;
+    height: 24px;
+    margin: 40px 36% 34px;
+}
+
+/* #endregion */
+
+/* #endregion */
+
+/* #region: Permissions Disclosure */
+
+/* #region: Both (Tab View and Popup View) */
+
+.BDTLL_permissions_link {
+    text-decoration: none;
+    color: rgb(0, 94, 255);
+}
+
+/* #endregion */
+
+/* #region: Tab View */
+
+.BDTLL_permissions_container_tab {
+    position: relative;
+    width: 40%;
+    margin: 48px auto 0;
+    z-index: 5;
+}
+
+.BDTLL_permissions_container_title_tab {
+    font-size: 36px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 42px;
+
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    color: rgb(7, 20, 45);
+}
+
+.BDTLL_permissions_container_settings_tab, .BDTLL_permissions_description_tab {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+
+    position: relative;
+    margin-top: 24px;
+}
+
+.BDTLL_permissions_description_ul_tab {
+    margin: 8px 0px 24px;
+    padding-inline-start: 30px;
+}
+
+.BDTLL_permissions_container_privacy_policy_tab {
+    text-align: center;
+}
+
+.BDTLL_permissions_privacy_policy_tab {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+}
+
+.BDTLL_permissions_privacy_policy_buttons_tab {
+    text-align: center;
+    margin: 32px 0px 0px;
+}
+
+.BDTLL_permissions_button_agree_tab {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+
+    min-width: 288px;
+    min-height: 44px;
+
+    display: flex;
+
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0px auto;
+
+    padding: 5px 12px;
+
+    border-radius: 3px;
+    border-style: none;
+
+    color: #fff;
+    background-color: rgb(0, 94, 255);
+}
+
+.BDTLL_permissions_hui_remove_tab {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+
+    display: inline-block;
+
+    min-width: 288px;
+    min-height: 44px;
+
+    align-items: center;
+    justify-content: center;
+    
+    margin: 8px 0px 0px;
+}
+
+/* #endregion */
+
+/* #region: Popup View */
+
+.BDTLL_permissions_container_popup {
+    width: 77%;
+    position: relative;
+    margin: 40px auto 0;
+}
+
+.BDTLL_permissions_container_title_popup {
+    font-size: 20px;
+    font-weight: 700;
+    font-style: normal;
+
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    color: rgb(7, 20, 45);
+}
+
+.BDTLL_permissions_description_popup, .BDTLL_permissions_container_settings_popup {
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: normal;
+
+    margin-top: 16px;
+
+    color: rgb(7, 20, 45);
+}
+
+.BDTLL_permissions_description_ul_popup {
+    margin: 4px 0px 24px;
+    padding-inline-start: 20px;
+}
+
+.BDTLL_permissions_container_privacy_policy_popup {
+    text-align: center;
+}
+
+.BDTLL_permissions_privacy_policy_popup {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 590;
+    line-height: normal;
+}
+
+.BDTLL_permissions_privacy_policy_buttons_popup {
+    text-align: center;
+    margin: 16px 0px 0px;
+}
+
+.BDTLL_permissions_button_agree_popup {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 590;
+    line-height: 16px;
+
+    min-width: 220px;
+    min-height: 32px;
+
+    display: flex;
+
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0px auto;
+
+    padding: 5px 12px;
+
+    border-radius: 3px;
+    border-style: none;
+
+    color: #fff;
+    background-color: rgb(0, 94, 255);
+}
+
+.BDTLL_permissions_hui_remove_popup {
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    display: inline-block;
+
+    min-width: 225px;
+    min-height: 17px;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 16px 0px 0px;
+}
+
+/* #endregion */
+
+/* #endregion */
+
+@-moz-document url-prefix() {
+    html, body {
+        height: 100%;
+    }
+}

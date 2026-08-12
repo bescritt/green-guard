@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SafeBrowsing+ — Settings</title>
+  <style>
+    body { font:14px/1.5 system-ui,sans-serif; max-width:640px; margin:2rem auto; padding:0 1rem; color:#222; }
+    h1 { font-size:1.4rem; }
+    label { display:block; margin:0.8rem 0; }
+    fieldset { border:1px solid #ccc; border-radius:8px; padding:1rem; margin:1rem 0; }
+    legend { font-weight:600; }
+    button { background:#1a73e8; color:#fff; border:0; border-radius:6px; padding:8px 14px; cursor:pointer; }
+    .muted { color:#666; font-size:0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>SafeBrowsing+ settings</h1>
+  <form id="form">
+    <fieldset>
+      <legend>Protection</legend>
+      <label><input type="checkbox" id="enabled" /> Enable protection</label>
+      <label>Level:
+        <select id="protectionLevel">
+          <option value="minimum">Minimum</option>
+          <option value="balanced" selected>Balanced</option>
+          <option value="strict">Strict</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="closeOnKnownScam" /> Close tab automatically on a known scam (irreversible)</label>
+    </fieldset>
+    <fieldset>
+      <legend>Privacy</legend>
+      <label><input type="checkbox" id="shareReports" /> Contribute anonymous page reports</label>
+      <p class="muted">No page content leaves your device unless you submit a report. See the <a href="pages/privacy.html" target="_blank">privacy policy</a>.</p>
+    </fieldset>
+    <button type="submit">Save</button>
+  </form>
+  <p class="muted" id="status"></p>
+  <script src="options.js"></script>
+</body>
+</html>

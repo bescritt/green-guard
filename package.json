@@ -1,0 +1,24 @@
+{
+  "name": "safebrowsing-plus",
+  "version": "1.0.0",
+  "description": "SafeBrowsing+ privacy-first page safety extension (MV3 + MV2)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test \"tests/unit/**/*.test.mjs\" \"tests/integration/**/*.test.mjs\"",
+    "build": "node build.mjs",
+    "build:crx": "/usr/bin/python3 build/tools/crx3_sign.py --key build/signing_key.pem --dir dist/mv3 --out dist/sbplus-mv3.crx",
+    "verify:crx": "/usr/bin/python3 build/tools/verify_crx3.py dist/sbplus-mv3.crx --require-key build/signing_key.pem",
+    "key:gen": "openssl genrsa -out build/signing_key.pem 2048"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.25.12"
+  },
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  }
+}

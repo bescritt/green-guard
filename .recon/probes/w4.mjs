@@ -1,0 +1,14 @@
+import { WhitelistStore, registrableDomain } from '../../src/core/whitelist.js';
+import { classifyHeuristically } from '../../src/core/heuristics.js';
+const mem = { _d: {}, async get(k){return this._d;}, async set(v){Object.assign(this._d,v);} };
+const w = new WhitelistStore(mem);
+const r = await w.add('shop.example.com');
+console.log('add result domain:', r.domain);
+console.log('reg(shop.example.com)=', registrableDomain('shop.example.com'));
+console.log('isWhitelisted shop.example.com:', await w.isWhitelisted('shop.example.com'));
+console.log('isWhitelisted checkout.shop.example.com:', await w.isWhitelisted('checkout.shop.example.com'));
+console.log('isWhitelisted example.com:', await w.isWhitelisted('example.com'));
+const h = classifyHeuristically({url:'https://x.example',domain:'x.example',title:'t',textSample:'',hasAutoplayMedia:true,hasPopups:false,fullscreenAttempts:0,focusGrabs:2,permissionRequests:[]});
+console.log('H-05 score:', h.score, 'tier:', h.tier);
+const h2 = classifyHeuristically({url:'https://x.example',domain:'x.example',title:'t',textSample:'',hasAutoplayMedia:true,hasPopups:false,fullscreenAttempts:5,focusGrabs:8,permissionRequests:[]});
+console.log('H-05b score:', h2.score);

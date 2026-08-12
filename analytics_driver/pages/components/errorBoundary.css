@@ -1,0 +1,105 @@
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui;
+}
+
+.container_top {
+    width: 300pt;
+    height: 48pt;
+    border-radius: 3pt;
+    box-shadow: 0pt 4pt 8pt 0pt rgba(7, 20, 45, 0.06);
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: rgb(255, 255, 255);
+}
+
+.tl_logo {
+    position: relative;
+    top: 12pt;
+    left: 12pt;
+    background-image: url(../../img/logo-tll.svg);
+    background-repeat: no-repeat;
+    background-size: 24pt 24pt;
+    border-radius: 3.1pt;
+    padding-left: 33pt;
+    /* width: 161pt; */
+}
+
+#web_protection_text {
+    font-size: 10.5pt;
+    color: rgb(7, 20, 45);
+}
+
+#company_name {
+    font-size: 10.5pt;
+    font-weight: bold;
+    color: rgb(7, 20, 45);
+}
+
+.error_container {
+    width: 264pt;
+    height: auto;
+    margin: 18pt 18pt;
+    border-radius: 10pt;
+    box-shadow: 0pt 4pt 8pt 0pt rgba(7, 20, 45, 0.06);
+    padding: 12pt 0pt 1pt 0pt;
+
+    background-color: rgb(255, 255, 255);
+    border: 1pt solid rgb(237, 237, 238);
+}
+
+.error_title {
+    font-size: 18pt;
+    font-weight: bold;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    color: rgb(7, 20, 45);
+}
+
+.footer_feedback_note {
+    width: 257pt;
+    height: auto;
+    text-align: center;
+    left: 0pt;
+    font-size: 10.5pt;
+    margin-top: 6pt;
+    margin-bottom: 18pt;
+}
+  
+.footer_feedback_note span {
+    margin-right: 6pt;
+    color: rgb(81, 91, 109);
+}
+
+#hui_feedback {
+    color: rgb(0, 94, 255);
+}
+
+@media (prefers-color-scheme: dark) {
+    .container_top {
+        background-color: rgb(56, 67, 87);
+    }
+
+    #web_protection_text, #company_name {
+        color: rgb(239, 241, 249);
+    }
+
+    .error_container {
+        background-color: rgba(56, 67, 87, .45);
+        border: none !important;
+    }
+
+    .error_title {
+        color: rgb(255, 255, 255);
+    }
+  
+    .footer_feedback_note span {
+        color: rgb(217, 217, 217);
+    }
+  
+    #hui_feedback {
+        color: rgb(100, 158, 254);
+    }
+}

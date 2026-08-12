@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SafeBrowsing+</title>
+  <style>
+    body { font:14px/1.4 system-ui,sans-serif; width:280px; padding:1rem; color:#222; }
+    h1 { font-size:1.1rem; margin:0 0 0.5rem; }
+    .stat { display:flex; justify-content:space-between; padding:2px 0; }
+    button { width:100%; margin-top:0.6rem; background:#1a73e8; color:#fff; border:0; border-radius:6px; padding:8px; cursor:pointer; }
+    .muted { color:#666; font-size:0.8rem; }
+  </style>
+</head>
+<body>
+  <h1>SafeBrowsing+</h1>
+  <div class="stat"><span>Navigations</span><span id="nav">0</span></div>
+  <div class="stat"><span>Classified</span><span id="cls">0</span></div>
+  <div class="stat"><span>Actions taken</span><span id="blk">0</span></div>
+  <div class="stat"><span>Bloom hits</span><span id="bloom">0</span></div>
+  <button id="openOptions">Settings</button>
+  <p class="muted" id="note"></p>
+  <script src="popup.js"></script>
+</body>
+</html>

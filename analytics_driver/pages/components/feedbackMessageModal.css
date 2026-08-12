@@ -1,0 +1,34 @@
+/*
+ * Created by Teodor-George Marchitan on Mon Sep 23 2019.
+ *
+ * Copyright (c) 2019 Bitdefender. All rights reserved.
+ */
+
+ .BDTLL_feedback_message_modal {
+    position: fixed;
+    z-index: 999999999999999;
+    padding-bottom: 30px;
+    width: 400px;
+    bottom: 0;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -200px;
+    background-color: rgba(255,255,255,0.1);
+ }
+
+ .BDTLL_feedback_message_modal_content {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    margin: 0 auto;
+    padding: 10px;
+    /* border: 1px solid #888; */
+    border-radius: 10px;
+    width: 80%;
+ }
+
+ .BDTLL_feedback_message_modal_content > p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Roboto';
+    text-align: center;
+ }
