@@ -15,16 +15,16 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Install dev dependencies (offline-capable; network only for npm registry)
+      - name: Install dev dependencies
         run: npm ci
-      - name: Run offline test suite
-        run: npm test
-      - name: Build bundles
+      - name: Build bundles (needed before packaging tests)
         run: npm run build
-      - name: Build + verify signed CRX3
+      - name: Generate signing key + build + verify signed CRX3
         run: |
           npm run key:gen
           npm run build:crx
           npm run verify:crx
+      - name: Run offline test suite
+        run: npm test
       - name: Driver integrity check (read-only mount respected)
         run: python3 build/tools/driver_integrity.py
