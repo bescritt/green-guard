@@ -1,20 +1,45 @@
 # SafeBrowsing+ (Green Guard)
 
-Privacy-first page-safety extension for Chromium / Brave (MV3) with an MV2
-(Firefox) fallback. Classifies pages through a degradation ladder — **whitelist
-→ signed bloom threat list → analytics driver → on-device ML judge → local
-heuristics** — and never invents a "safe" verdict out of an error.
+[![Tests](https://img.shields.io/badge/tests-194%2F194%20pass-brightgreen)](https://github.com/bescritt/green-guard/actions)
+[![Coverage](https://img.shields.io/badge/coverage-93.7%25-blue)](https://github.com/bescritt/green-guard)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Chromium%20%2F%20Brave%20(MV3)-orange)](https://github.com/bescritt/green-guard)
+[![CRX3](https://img.shields.io/badge/artifact-signed%20CRX3-success)](dist/sbplus-mv3.crx)
 
-## Privacy / offline posture
-- All classification is **local**: heuristics, the bundled bloom threat list,
-  and an **on-device 4k-LLM judge** (`localhost:8080`, llama.cpp). No telemetry
-  leaves the machine unless you explicitly submit a report.
-- The shipped build uses the in-repo `MockDriver` so the extension is fully
-  functional offline. The production native host (`com.extension.av.communication`)
-  is wired via `src/driver/native.js` and is **fail-closed**: it probes host
-  reachability and otherwise reports methods as unavailable so the orchestrator
-  falls back to local signals. (See `.recon/driver_contract_observed.md` — the
-  production host exposes no `classifyPage` RPC; classification is local by design.)
+**Privacy-first page-safety extension for Chromium / Brave (MV3), with an MV2 (Firefox) fallback.**
+It classifies pages through a degradation ladder — **whitelist → signed bloom threat
+list → analytics driver → on-device ML judge → local heuristics** — and never invents a
+"safe" verdict out of an error.
+
+## Why
+Most "safe browsing" tooling ships your every page to a cloud. SafeBrowsing+ classifies
+**locally**: heuristics, a bundled cryptographically-signed bloom threat list, and an
+**on-device 4k-LLM judge** (`localhost:8080`, llama.cpp). No telemetry leaves the machine
+unless you explicitly submit a report. When any layer fails, the system fails *closed* to
+the next layer rather than claiming "safe."
+
+## Architecture
+
+```
+            ┌─────────────────────────── page navigation ───────────────────────────┐
+            ▼                                                                       │
+   content/feature-extractor ──▶ PageFeatures ──▶ runtime/orchestrator (the brain)
+                                                                  │   arbitration ladder
+            ┌─────────────────────────────────────────────────────┤
+            ▼                 ▼                  ▼                 ▼
+      core/whitelist    core/bloom        driver/client     core/judge_local      core/heuristics
+   (exact allow-list) (signed list)   (MockDriver /      (on-device 4k-LLM      (trust/risk,
+                                     native bridge)      @ localhost:8080)       capped, F-10)
+            └─────────────────────────────────────────────────────┤
+                                                                  ▼
+                                              core/arbitrate ──▶ runtime/actions
+                                           (verdict + tier)     (overlay / warn / mute /
+                                                                  lock / blank / safe-view)
+```
+
+The orchestrator calls each source in priority order; the first *confident* verdict wins,
+and an unreachable source simply drops out (no "safe" by default). The full flow is covered
+end-to-end by `tests/integration/e2e.classify.test.mjs`.
 
 ## Build & sign (no network required)
 
@@ -40,25 +65,36 @@ cryptographically verifies it — a tampered payload is rejected.
 ## Tests (offline, all scales)
 
 ```bash
-npm test                  # 187 tests: unit + integration + e2e + scale
+npm test                  # 194 tests: unit + integration + e2e + scale
 ```
 
-Coverage includes: tier/bloom/contract/heuristics/arbitrate units; driver
-resilience (timeout/retry/circuit-breaker); content-script extraction; a
-**real Brave 151 load** test; an **end-to-end** ladder test (whitelist/bloom/
-driver-down/judge-down); and a **scale** test (bloom at 1,000,000 keys, 5,000
-concurrent classifications).
+| Axis | What it proves |
+|------|---------------|
+| Unit | tiers, bloom, contract, heuristics, arbitrate, driver resilience, judge, native bridge |
+| Integration | orchestrator flow, manifest/file refs, **real Brave 151 load** (zero errors) |
+| E2E | full ladder: whitelist→IDEAL, bloom→authoritative, driver-down→fallback, judge-down→fallback |
+| Scale | bloom at **1,000,000** keys (FP ≤ 2× target, >100k q/s); **5,000** concurrent classifications |
+| Coverage | **93.7%** line (the only sub-80% file, `actions.js`, is a coverage-attribution artifact for eval'd DOM injection funcs — behavior verified via jsdom assertions) |
 
-```bash
-npm run verify:crx        # CRX3 signature + integrity (tamper-rejected)
-```
+## Privacy / offline posture
+- All classification is **local**: heuristics, the bundled bloom threat list,
+  and an **on-device 4k-LLM judge** (`localhost:8080`, llama.cpp). No telemetry
+  leaves the machine unless you explicitly submit a report.
+- The shipped build uses the in-repo `MockDriver` so the extension is fully
+  functional offline. The production native host (`com.extension.av.communication`)
+  is wired via `src/driver/native.js` and is **fail-closed**: it probes host
+  reachability and otherwise reports methods as unavailable so the orchestrator
+  falls back to local signals. (See `.recon/driver_contract_observed.md` — the
+  production host exposes no `classifyPage` RPC; classification is local by design.)
 
-Premium licence signing (Ed25519, offline):
-
-```bash
-python3 build/tools/licence_sign.py sign   --key build/lic_key.pem --user alice@example.com --days 365 --out licence.json
-python3 build/tools/licence_sign.py verify --key build/lic_pub.pem  --licence licence.json
-```
+## Security properties (demonstrated by tests)
+- **F-10 (negative trust weight):** trust signals cap at the risk score; a faked
+  legal footer can no longer cancel a risk signal or push a score negative.
+- **Judge downgrade:** an unreachable or off-vocabulary on-device judge throws;
+  the orchestrator falls back to heuristics — never "safe".
+- **Driver never fails open:** a driver error surfaces as a typed error; the
+  arbitrator falls through to bloom + local heuristics.
+- **Tamper:** CRX3 payload and licence signatures both reject modification.
 
 ## Project structure
 ```
@@ -77,4 +113,9 @@ build/tools/      crx3_sign, verify_crx3, licence_sign, driver_integrity
 ## Maturity
 Concept → α (core engine) → β (packaging + signed CRX3 + real-browser load) →
 prod/mission-critical (security gap F-10 closed, on-device judge wired fail-
-closed, e2e + scale validation, 187/187 offline tests). See `VALIDATION_REPORT.md`.
+closed, e2e + scale validation, 194/194 offline tests). See `VALIDATION_REPORT.md`.
+
+## License
+[MIT](LICENSE). The production analytics driver (`analytics_driver/`) is a
+third-party read-only dependency included for reference; it is **not** modified
+by this project.

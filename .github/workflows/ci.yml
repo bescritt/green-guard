@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+    tags: ['*']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dev dependencies (offline-capable; network only for npm registry)
+        run: npm ci
+      - name: Run offline test suite
+        run: npm test
+      - name: Build bundles
+        run: npm run build
+      - name: Build + verify signed CRX3
+        run: |
+          npm run key:gen
+          npm run build:crx
+          npm run verify:crx
+      - name: Driver integrity check (read-only mount respected)
+        run: python3 build/tools/driver_integrity.py
