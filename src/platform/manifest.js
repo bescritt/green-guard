@@ -53,6 +53,9 @@ function mv3Manifest() {
     host_permissions: ['<all_urls>'],
     background: { service_worker: 'background.js', type: 'module' },
     action: { default_popup: 'popup.html', default_icon: COMMON_ICONS },
+    // Chrome MV3 registers the options UI via `options_page`; `options_ui` is
+    // Firefox-only. Both point at the same page so the gear icon works everywhere.
+    options_page: 'options.html',
     options_ui: {
       page: 'options.html',
       open_in_tab: false,
@@ -85,6 +88,7 @@ function mv2Manifest() {
     ],
     background: { scripts: ['background.js'], persistent: false },
     browser_action: { default_popup: 'popup.html', default_icon: COMMON_ICONS },
+    options_page: 'options.html',
     options_ui: { page: 'options.html', open_in_tab: false },
     content_scripts: COMMON_CONTENT_SCRIPTS,
     web_accessible_resources: ['content/actions-injected.js'],

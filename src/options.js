@@ -1,5 +1,8 @@
 // Options UI logic. Loads current settings and persists changes via the
 // background worker (which owns the SettingsStore).
+// Chrome MV3 options pages expose the API as `chrome`, not `browser`
+// (no webext polyfill), so resolve the global defensively.
+const browser = globalThis.browser || globalThis.chrome;
 const $ = (id) => document.getElementById(id);
 const DEFAULTS = { enabled: true, protectionLevel: 'balanced', closeOnKnownScam: false, shareReports: false };
 

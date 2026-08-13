@@ -54,6 +54,21 @@ test('vendor/Readability.js is present for safe-view', () => {
   assert.ok(existsSync(join(DIST, 'vendor', 'Readability.js')), 'Readability must ship for safe view');
 });
 
+// Regression for the "Options save does nothing / extension can't turn on" bug:
+// Chrome MV3 registers the options UI via `options_page` (not `options_ui`), and
+// the UI pages must ship the browser-global fallback or Save throws
+// `ReferenceError: browser is not defined` in Chrome.
+test('MV3 exposes options_page and the options UI files exist', () => {
+  const m = loadManifest();
+  assert.ok(m.options_page, 'Chrome MV3 requires options_page for the gear/settings to load');
+  assert.ok(existsSync(join(DIST, m.options_page)), `options_page ${m.options_page} missing from dist/mv3`);
+  assert.ok(existsSync(join(DIST, 'options.js')), 'options.js must ship alongside options.html');
+  const optjs = readFileSync(join(DIST, 'options.js'), 'utf8');
+  assert.ok(optjs.includes('globalThis.browser || globalThis.chrome'), 'options.js must resolve the chrome/browser global (Chrome has no webext polyfill)');
+  const popjs = readFileSync(join(DIST, 'popup.js'), 'utf8');
+  assert.ok(popjs.includes('globalThis.browser || globalThis.chrome'), 'popup.js must resolve the chrome/browser global');
+});
+
 test('background bundle is not empty and is valid ESM', () => {
   const src = readFileSync(join(DIST, 'background.js'), 'utf8');
   assert.ok(src.length > 1000, 'background bundle too small — build likely failed');

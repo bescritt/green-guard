@@ -1,4 +1,6 @@
 // Popup UI logic. Reads stats from the background worker and opens Settings.
+// Chrome MV3 popup pages expose the API as `chrome`, not `browser`.
+const browser = globalThis.browser || globalThis.chrome;
 const $ = (id) => document.getElementById(id);
 
 async function refresh() {
